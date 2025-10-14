@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('telefono');
             $table->text('logo');
             $table->text('imagen_login');
+            $table->string('email');
             $table->text('divisa');
             $table->text('pagina_web')->nullable();
             $table->timestamps();

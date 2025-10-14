@@ -1,196 +1,295 @@
 @extends('layouts.admin')
 
-@section('content')
-    <h5><i class="bi bi-gear-fill"></i> Ajustes</h5>
-    <div class="row justify-content-center">
 
+@section('content')
+    <h5><i class="bi bi-gear-fill"></i> Ajustes del Sistema
+    </h5>
+    <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card shadow-lg border-0 rounded-4">
-                <div class="card-header bg-gradient-primary text-white rounded-top-4">
-                    <h4 class="mb-0 card-title"><i class="fas fa-id-card"></i> Formulario de Registro</h4>
+                <div class="card-header bg-gradient-primary text-primary rounded-top-4 text-center">
+                    <h4 class="mb-0 card-title">
+                        <i class="fas fa-id-card"></i> CONFIGURACIÓN DEL SISTEMA
+                    </h4>
+                    <hr>
                 </div>
+
                 <div class="card-body p-4">
-                    <form action="{{ route('admin.personal.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{-- route('admin.personal.store') --}}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input type="text" name="tipo" id="tipo" value="{{ $tipo }}" hidden>
                         <div class="row">
-                            {{-- Fotografía --}}
-                            <div class="col-md-3 text-center">
-                                <label for="foto" class="form-label fw-semibold">
-                                    <i class="fas fa-camera text-primary"></i> Fotografía <span class="text-danger">*</span>
-                                </label>
-                                <div class="input-group d-flex flex-column align-items-center">
-                                    <label class="btn btn-outline-primary rounded-pill px-4" for="foto">
-                                        <i class="fas fa-upload"></i> Seleccionar archivo
-                                    </label>
-                                    <input type="file" class="d-none" id="foto" name="foto" accept="image/*"
-                                        onchange="mostrarImagen(event)" required>
-                                    <span id="nombre-archivo" class="mt-2 text-muted">Ningún archivo seleccionado</span>
-
-                                    <!-- Imagen centrada -->
-                                    <img id="preview" src="" width="150"
-                                        style="display:none; margin-top:10px;">
-                                </div>
-                            </div>
-
-
-                            {{-- content --}}
-                            <div class="col-md-9">
+                            {{-- Imagenes --}}
+                            <div class="col-md-4 text-center">
                                 <div class="row">
-                                    {{-- Tipo de Rol --}}
-                                    <div class="col-md-3">
+                                    <div class="col-md-6 text-center mb-4">
+                                        {{-- Logo de la empresa --}}
                                         <div class="form-group">
-                                            <label for="">
-                                                <span><i class="fas fa-users-cog text-primary"></i></span> Nombre del Rol
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <select name="rol" id="rol" class="form-control rounded-pill"
-                                                required>
-                                                <option value="">Seleccione un rol...</option>
-                                                @foreach ($roles as $role)
-                                                    <option value="{{ $role->name }}"
-                                                        {{ $role->name == $tipo ? 'selected' : '' }}>
-                                                        {{ $role->name }}
-                                                    </option>)
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        @error('rol')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
 
-                                    {{-- Nombre Completo --}}
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="nombre" class="form-label fw-semibold">
-                                                <span><i class="fas fa-user text-primary"></i></span> Nombre <span
+                                            <label for="logo" class="form-label fw-semibold d-block">
+                                                <i class="fas fa-camera text-primary"></i> Logo <span
                                                     class="text-danger">*</span>
                                             </label>
-                                            <input type="text" name="nombre" id="nombre"
-                                                class="form-control rounded-pill" value="{{ old('nombre') }}"
-                                                placeholder="Ingrese el nombre" required>
-                                        </div>
-                                        @error('nombre')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                    {{-- Apellido Completo --}}
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="apellido" class="form-label fw-semibold">
-                                                <span><i class="fas fa-user-edit text-primary"></i></span> Apellido <b>
-                                                    *</b>
-                                            </label>
-                                            <input type="text" name="apellido" id="apellido"
-                                                class="form-control rounded-pill" value="{{ old('apellido') }}"
-                                                placeholder="Ingrese el apellido" required>
-                                        </div>
-                                        @error('apellido')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                    {{-- Documento de Identidad --}}
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="ci" class="form-label fw-semibold">
-                                                <span><i class="fas fa-id-badge text-primary"></i></span> Cédula de
-                                                Identidad <span class="text-danger">*</span>
-                                            </label>
-                                            <input type="text" name="ci" id="ci"
-                                                class="form-control rounded-pill" value="{{ old('ci') }}"
-                                                placeholder="Ingrese la cédula de identidad" required>
-                                        </div>
-                                        @error('ci')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        {{-- Fecha de Nacimiento --}}
-                                        <label for="fecha_nacimiento" class="form-label fw-semibold">
-                                            <span><i class="fas fa-birthday-cake text-primary"></i></span> Fecha de
-                                            Nacimiento <span class="text-danger">
-                                                *</span>
-                                        </label>
-                                        <input type="date" name="fecha_nacimiento" id="fecha_nacimiento"
-                                            class="form-control rounded-pill" value="{{ old('fecha_nacimiento') }}"
-                                            placeholder="Ingrese la fecha de nacimiento" required>
-                                    </div>
-                                    @error('fecha_nacimiento')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                    <div class="col-md-3">
-                                        <label for="telefono" class="form-label fw-semibold">
-                                            <span><i class="fas fa-phone-alt text-primary"></i></span> Teléfono <span
-                                                class="text-danger">*</span>
-                                        </label>
-                                        <input type="text" name="telefono" id="telefono"
-                                            value="{{ old('telefono') }}" placeholder="Ingrese un número de teléfono"
-                                            class="form-control rounded-pill" required>
-                                    </div>
-                                    @error('telefono')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
 
-                                    <div class="col-md-3">
-                                        <label for="profesion" class="form-label fw-semibold">
-                                            <span><i class="fas fa-briefcase text-primary"></i></span> Profesión <span
-                                                class="text-danger">*</span>
-                                        </label>
-                                        <input type="text" name="profesion" id="profesion"
-                                            value="{{ old('profesion') }}" placeholder="Ingrese la profesión"
-                                            class="form-control rounded-pill" required>
+                                            <div class="input-group d-flex flex-column align-items-center">
+                                                <label class="btn btn-outline-primary rounded-pill px-4 mb-2"
+                                                    for="logo">
+                                                    <i class="fas fa-upload"></i> Seleccionar archivo
+                                                </label>
+
+                                                <input type="file" class="d-none" id="logo" name="logo"
+                                                    accept="image/*"
+                                                    onchange="mostrarImagen(event, 'preview', 'nombre-archivo')" required>
+
+                                                <span id="nombre-archivo" class="mt-1 text-muted small">
+                                                    Ningún archivo seleccionado
+                                                </span>
+
+                                                <img id="preview" src="" width="150"
+                                                    class="mt-3 rounded shadow-sm" style="display:none; object-fit: cover;">
+                                            </div>
+
+                                        </div>
                                     </div>
-                                    @error('profesion')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                    {{-- Correo Electrónico --}}
-                                    <div class="col-md-3">
-                                        <label for="email" class="form-label fw-semibold">
-                                            <span><i class="fas fa-envelope text-primary"></i></span> Correo electrónico
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="email" name="email" id="email" value="{{ old('email') }}"
-                                            class="form-control rounded-pill" placeholder="ejemplo@correo.com" required>
+                                    <div class="col-md-6 text-center mb-4">
+                                        {{-- Imagen del login --}}
+                                        <div class="form-group">
+
+                                            <label for="imagen_login" class="form-label fw-semibold d-block">
+                                                <i class="fas fa-camera text-primary"></i> Imagen Login <span
+                                                    class="text-danger">*</span>
+                                            </label>
+
+                                            <div class="input-group d-flex flex-column align-items-center">
+                                                <label class="btn btn-outline-primary rounded-pill px-4 mb-2"
+                                                    for="imagen_login">
+                                                    <i class="fas fa-upload"></i> Seleccionar archivo
+                                                </label>
+
+                                                <input type="file" class="d-none" id="imagen_login" name="imagen_login"
+                                                    accept="image/*"
+                                                    onchange="mostrarImagen(event, 'preview-1', 'nombre-archivo-1')"
+                                                    required>
+
+                                                <span id="nombre-archivo-1" class="mt-1 text-muted small">
+                                                    Ningún archivo seleccionado
+                                                </span>
+
+                                                <img id="preview-1" src="" width="150"
+                                                    class="mt-3 rounded shadow-sm" style="display:none; object-fit: cover;">
+                                            </div>
+
+                                        </div>
                                     </div>
-                                    @error('email')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+
+
                                 </div>
-                                <hr>
+
+                            </div>
+                            <!--##########################-->
+                            {{-- contenido --}}
+                            <div class="col-md-8">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        {{-- dirección --}}
-                                        <label for="direccion" class="form-label fw-semibold">
-                                            <i class="fas fa-map-marker-alt text-primary"></i> Dirección<span
-                                                class="text-danger"> *</span>
-                                        </label>
-                                        <input type="text" name="direccion" id="direccion"
-                                            value="{{ old('direccion') }}" placeholder="ingrese una dirección válida"
-                                            class="form-control rounded-pill" required>
+                                    {{-- Nombre Completo --}}
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-group">
+                                            <label for="nombre" class="form-label fw-semibold ">
+                                                Nombre
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="bi bi-building"></i></span>
+                                                <input type="text" name="nombre" id="nombre"
+                                                    class="form-control rounded-pill @error('nombre') is-invalid @enderror"
+                                                    value="{{ old('nombre') }}" placeholder="nombre de la empresa" required>
+                                                @error('nombre')
+                                                    <div class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
-                                    @error('direccion')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+
+                                    {{-- Descripción --}}
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-group">
+                                            <label for="descripcion" class="form-label fw-semibold ">
+                                                Descripción
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="bi bi-tag"></i></span>
+                                                <input type="text" name="descripcion" id="descripcion"
+                                                    class="form-control rounded-pill @error('descripcion') is-invalid @enderror"
+                                                    value="{{ old('descripcion') }}"
+                                                    placeholder="descripcion de la actividad o sector" required>
+                                                @error('descripcion')
+                                                    <div class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Sucursal --}}
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-group">
+                                            <label for="sucursal" class="form-label fw-semibold ">
+                                                Sucursal
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-shop"></i>
+                                                </span>
+                                                <input type="text" name="sucursal" id="sucursal"
+                                                    class="form-control rounded-pill @error('sucursal') is-invalid @enderror"
+                                                    value="{{ old('sucursal') }}"
+                                                    placeholder="sucursal matriz de la empresa" required>
+                                                @error('sucursal')
+                                                    <div class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+
+
                                 </div>
-                                <hr>
-                                <div class="row justify-content-center">
-                                    <div class="mt-5 ">
-                                        <a href="{{ route('admin.personal.index', $tipo) }}"
-                                            class="btn btn-outline-secondary btn-sm rounded-pill mr-2">
-                                            <i class="fas fa-arrow-left"></i> Cancelar
-                                        </a>
+                                <div class="row">
+                                    {{-- Dirección --}}
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-group">
+                                            <label for="direccion" class="form-label fw-semibold ">
+                                                Direccion
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-geo-alt"></i></span>
+                                                <textarea name="direccion" id="direccion" rows="1"
+                                                    class="form-control rounded-pill @error('direccion') is-invalid @enderror" placeholder="direccion de la empresa"
+                                                    required> {{ old('direccion') }}
+                                                </textarea>
+                                                @error('direccion')
+                                                    <div class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- email --}}
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-group">
+                                            <label for="email" class="form-label fw-semibold ">
+                                                email
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                                <input type="email" name="email" id="email"
+                                                    class="form-control rounded-pill @error('email') is-invalid @enderror"
+                                                    value="{{ old('email') }}" placeholder="email de la empresa"
+                                                    required>
+                                                @error('email')
+                                                    <div class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    {{-- Teléfonos --}}
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-group">
+                                            <label for="telefono" class="form-label fw-semibold ">
+                                                Telefono
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                                                <input type="text" name="telefono" id="telefono"
+                                                    class="form-control rounded-pill @error('telefono') is-invalid @enderror"
+                                                    value="{{ old('telefono') }}" placeholder="telefono de la empresa"
+                                                    required>
+                                                @error('telefono')
+                                                    <div class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- Página Web --}}
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-group">
+                                            <label for="pagina_web" class="form-label fw-semibold ">
+                                                Pagina Web
+
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="bi bi-globe"></i></span>
+                                                <input type="text" name="pagina_web" id="pagina_web"
+                                                    class="form-control rounded-pill @error('pagina_web') is-invalid @enderror"
+                                                    value="{{ old('pagina_web') }}"
+                                                    placeholder="ej: example@example.com">
+                                                @error('pagina_web')
+                                                    <div class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Divisas --}}
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-group">
+                                            <label for="divisa" class="form-label fw-semibold ">
+                                                Divisa
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i
+                                                        class="bi bi-currency-dollar"></i></span>
+                                                <select name="divisa" id="divisa"
+                                                    class="form-control rounded-pill @error('divisa') is-invalid @enderror">
+                                                    <option value="">Selecione una divisa</option>
+                                                    @foreach ($divisas as $divisa)
+                                                        <option value="{{ $divisa['symbol'] }}">
+                                                            {{ $divisa['name'] }} ({{ $divisa['symbol'] }})
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('divisa')
+                                                    <div class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <hr class="text-primary">
+
+                                {{-- botones --}}
+                                <div class="row justify-content-center mt-4">
+                                    <div>
                                         <button type="submit" class="btn btn-success btn-sm rounded-pill shadow-sm">
-                                            <i class="fas fa-save"></i> Guardar Registro
+                                            <i class="bi bi-save"></i> Guardar Configuración
                                         </button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
                     </form>
                 </div>
             </div>
@@ -198,7 +297,32 @@
     </div>
 
 @stop
+
 @section('css')
+    {{-- Aquí puedes agregar estilos personalizados si deseas --}}
 @stop
+
 @section('js')
+    <script>
+        function mostrarImagen(event, previewId, nombreArchivoId) {
+            const archivo = event.target.files[0];
+            const preview = document.getElementById(previewId);
+            const nombreArchivo = document.getElementById(nombreArchivoId);
+
+            if (archivo) {
+                nombreArchivo.textContent = archivo.name;
+
+                const lector = new FileReader();
+                lector.onload = e => {
+                    preview.src = e.target.result;
+                    preview.style.display = "block";
+                };
+                lector.readAsDataURL(archivo);
+            } else {
+                nombreArchivo.textContent = "Ningún archivo seleccionado";
+                preview.style.display = "none";
+                preview.src = "";
+            }
+        }
+    </script>
 @stop
