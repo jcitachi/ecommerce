@@ -15,6 +15,7 @@ class Ajuste extends Model
         'sucursal',
         'direccion',
         'telefono',
+        'email',
         'logo',
         'imagen_login',
         'divisa',

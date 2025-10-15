@@ -132,11 +132,14 @@
                 </a>
             </header>
 
+            @yield('page-header')
+            {{--
             <div class="page-heading">
                 <h1>Panel Administrativo</h1>
                 <p> Bienvenido <b>{{ Auth::user()->name }}</b> aca se mostrara el contenido del panel administrativo.</p>
                 <hr class="">
             </div>
+            --}}
             <div class="page-content">
                 @yield('content')
             </div>
@@ -166,7 +169,19 @@
     <!-- Need: Apexcharts -->
     <script src="{{ asset('assets/extensions/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/static/js/pages/dashboard.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {{-- aquí cargarán los scripts/inline JS de cada vista --}}
+    @if (session('mensaje'))
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "{{ session('icono') ?? 'success' }}", // si no hay icono, por defecto success
+                title: "{{ session('mensaje') }}",
+                showConfirmButton: false,
+                timer: 4000
+            });
+        </script>
+    @endif
     @yield('js')
 </body>
 

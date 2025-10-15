@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 
+@section('page-header')
+    <h1>Panel de Configuración</h1>
+    <p> Bienvenido <b>{{ Auth::user()->name }}</b> estas en el panel de Ajustes del Sistema</p>
+    <hr class="">
+@endsection
 
 @section('content')
     <h5><i class="bi bi-gear-fill"></i> Ajustes del Sistema
@@ -15,7 +20,7 @@
                 </div>
 
                 <div class="card-body p-4">
-                    <form action="{{-- route('admin.personal.store') --}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.ajustes.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             {{-- Imagenes --}}
@@ -26,26 +31,37 @@
                                         <div class="form-group">
 
                                             <label for="logo" class="form-label fw-semibold d-block">
-                                                <i class="fas fa-camera text-primary"></i> Logo <span
-                                                    class="text-danger">*</span>
+                                                <i class="fas fa-camera text-primary"></i> Logo <span class="text-danger">
+                                                    @if (!isset($ajuste) || empty($ajuste->logo))
+                                                        *
+                                                    @endif
+                                                </span>
                                             </label>
 
                                             <div class="input-group d-flex flex-column align-items-center">
                                                 <label class="btn btn-outline-primary rounded-pill px-4 mb-2"
                                                     for="logo">
-                                                    <i class="fas fa-upload"></i> Seleccionar archivo
+                                                    <i class="bi bi-upload"></i> Seleccionar archivo
                                                 </label>
 
                                                 <input type="file" class="d-none" id="logo" name="logo"
                                                     accept="image/*"
-                                                    onchange="mostrarImagen(event, 'preview', 'nombre-archivo')" required>
+                                                    onchange="mostrarImagen(event, 'preview', 'nombre-archivo')"
+                                                    @if (!isset($ajuste) || empty($ajuste->logo)) required @endif>
 
                                                 <span id="nombre-archivo" class="mt-1 text-muted small">
                                                     Ningún archivo seleccionado
                                                 </span>
+                                                @if (isset($ajuste) && $ajuste->logo)
+                                                    <img id="preview" src="{{ asset('storage/' . $ajuste->logo) }}"
+                                                        width="150" class="mt-3 rounded shadow-sm"
+                                                        style=" object-fit: cover;">
+                                                @else
+                                                    <img id="preview" src="" width="150"
+                                                        class="mt-3 rounded shadow-sm"
+                                                        style="display:none; object-fit: cover;">
+                                                @endif
 
-                                                <img id="preview" src="" width="150"
-                                                    class="mt-3 rounded shadow-sm" style="display:none; object-fit: cover;">
                                             </div>
 
                                         </div>
@@ -55,27 +71,38 @@
                                         <div class="form-group">
 
                                             <label for="imagen_login" class="form-label fw-semibold d-block">
-                                                <i class="fas fa-camera text-primary"></i> Imagen Login <span
-                                                    class="text-danger">*</span>
+                                                <i class="fas fa-camera text-primary"></i> Imagen Login
+                                                <span class="text-danger">
+                                                    @if (!isset($ajuste) || empty($ajuste->logo))
+                                                        *
+                                                    @endif
+                                                </span>
                                             </label>
 
                                             <div class="input-group d-flex flex-column align-items-center">
                                                 <label class="btn btn-outline-primary rounded-pill px-4 mb-2"
                                                     for="imagen_login">
-                                                    <i class="fas fa-upload"></i> Seleccionar archivo
+                                                    <i class="bi bi-upload"></i> Seleccionar archivo
                                                 </label>
 
                                                 <input type="file" class="d-none" id="imagen_login" name="imagen_login"
                                                     accept="image/*"
                                                     onchange="mostrarImagen(event, 'preview-1', 'nombre-archivo-1')"
-                                                    required>
+                                                    @if (!isset($ajuste) || empty($ajuste->logo)) required @endif>
 
                                                 <span id="nombre-archivo-1" class="mt-1 text-muted small">
                                                     Ningún archivo seleccionado
                                                 </span>
+                                                @if (isset($ajuste) && $ajuste->imagen_login)
+                                                    <img id="preview-1"
+                                                        src="{{ asset('storage/' . $ajuste->imagen_login) }}" width="150"
+                                                        class="mt-3 rounded shadow-sm" style="object-fit: cover;">
+                                                @else
+                                                    <img id="preview-1" src="" width="150"
+                                                        class="mt-3 rounded shadow-sm"
+                                                        style="display:none; object-fit: cover;">
+                                                @endif
 
-                                                <img id="preview-1" src="" width="150"
-                                                    class="mt-3 rounded shadow-sm" style="display:none; object-fit: cover;">
                                             </div>
 
                                         </div>
@@ -100,7 +127,8 @@
                                                 <span class="input-group-text"><i class="bi bi-building"></i></span>
                                                 <input type="text" name="nombre" id="nombre"
                                                     class="form-control rounded-pill @error('nombre') is-invalid @enderror"
-                                                    value="{{ old('nombre') }}" placeholder="nombre de la empresa" required>
+                                                    value="{{ old('nombre', $ajuste->nombre ?? '') }}"
+                                                    placeholder="nombre de la empresa" required>
                                                 @error('nombre')
                                                     <div class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -121,7 +149,7 @@
                                                 <span class="input-group-text"><i class="bi bi-tag"></i></span>
                                                 <input type="text" name="descripcion" id="descripcion"
                                                     class="form-control rounded-pill @error('descripcion') is-invalid @enderror"
-                                                    value="{{ old('descripcion') }}"
+                                                    value="{{ old('descripcion', $ajuste->descripcion ?? '') }}"
                                                     placeholder="descripcion de la actividad o sector" required>
                                                 @error('descripcion')
                                                     <div class="invalid-feedback" role="alert">
@@ -145,7 +173,7 @@
                                                 </span>
                                                 <input type="text" name="sucursal" id="sucursal"
                                                     class="form-control rounded-pill @error('sucursal') is-invalid @enderror"
-                                                    value="{{ old('sucursal') }}"
+                                                    value="{{ old('sucursal', $ajuste->sucursal ?? '') }}"
                                                     placeholder="sucursal matriz de la empresa" required>
                                                 @error('sucursal')
                                                     <div class="invalid-feedback" role="alert">
@@ -171,7 +199,7 @@
                                                     <i class="bi bi-geo-alt"></i></span>
                                                 <textarea name="direccion" id="direccion" rows="1"
                                                     class="form-control rounded-pill @error('direccion') is-invalid @enderror" placeholder="direccion de la empresa"
-                                                    required> {{ old('direccion') }}
+                                                    required> {{ old('direccion', $ajuste->direccion ?? '') }}
                                                 </textarea>
                                                 @error('direccion')
                                                     <div class="invalid-feedback" role="alert">
@@ -193,8 +221,8 @@
                                                 <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                                                 <input type="email" name="email" id="email"
                                                     class="form-control rounded-pill @error('email') is-invalid @enderror"
-                                                    value="{{ old('email') }}" placeholder="email de la empresa"
-                                                    required>
+                                                    value="{{ old('email', $ajuste->email ?? '') }}"
+                                                    placeholder="email de la empresa" required>
                                                 @error('email')
                                                     <div class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -216,8 +244,8 @@
                                                 <span class="input-group-text"><i class="bi bi-telephone"></i></span>
                                                 <input type="text" name="telefono" id="telefono"
                                                     class="form-control rounded-pill @error('telefono') is-invalid @enderror"
-                                                    value="{{ old('telefono') }}" placeholder="telefono de la empresa"
-                                                    required>
+                                                    value="{{ old('telefono', $ajuste->telefono ?? '') }}"
+                                                    placeholder="telefono de la empresa" required>
                                                 @error('telefono')
                                                     <div class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -237,7 +265,7 @@
                                                 <span class="input-group-text"><i class="bi bi-globe"></i></span>
                                                 <input type="text" name="pagina_web" id="pagina_web"
                                                     class="form-control rounded-pill @error('pagina_web') is-invalid @enderror"
-                                                    value="{{ old('pagina_web') }}"
+                                                    value="{{ old('pagina_web', $ajuste->pagina_web ?? '') }}"
                                                     placeholder="ej: example@example.com">
                                                 @error('pagina_web')
                                                     <div class="invalid-feedback" role="alert">
@@ -262,7 +290,8 @@
                                                     class="form-control rounded-pill @error('divisa') is-invalid @enderror">
                                                     <option value="">Selecione una divisa</option>
                                                     @foreach ($divisas as $divisa)
-                                                        <option value="{{ $divisa['symbol'] }}">
+                                                        <option value="{{ $divisa['symbol'] }}"
+                                                            {{ old('divisa', $ajuste->divisa ?? '') == $divisa['symbol'] ? 'selected' : '' }}>
                                                             {{ $divisa['name'] }} ({{ $divisa['symbol'] }})
                                                         </option>
                                                     @endforeach
@@ -282,7 +311,7 @@
                                 {{-- botones --}}
                                 <div class="row justify-content-center mt-4">
                                     <div>
-                                        <button type="submit" class="btn btn-success btn-sm rounded-pill shadow-sm">
+                                        <button type="submit" class="btn btn-primary btn-sm rounded-pill shadow-sm">
                                             <i class="bi bi-save"></i> Guardar Configuración
                                         </button>
                                     </div>
@@ -325,4 +354,5 @@
             }
         }
     </script>
+
 @stop
