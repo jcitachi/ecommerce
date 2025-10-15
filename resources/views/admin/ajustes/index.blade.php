@@ -2,7 +2,7 @@
 
 @section('page-header')
     <h1>Panel de Configuración</h1>
-    <p> Bienvenido <b>{{ Auth::user()->name }}</b> estas en el panel de Ajustes del Sistema</p>
+    <p> Bienvenido <b>{{ Auth::user()->name }}</b>, estas en el panel de Ajustes del Sistema</p>
     <hr class="">
 @endsection
 

@@ -72,17 +72,24 @@
                     <ul class="menu">
                         <li class="sidebar-title"><i class="bi bi-sliders"></i> Menú</li>
 
-                        <li class="sidebar-item active ">
+                        <li class="sidebar-item {{ Route::is('admin.index') ? 'active' : '' }}">
                             <a href="{{ route('admin.index') }}" class='sidebar-link'>
                                 <i class="bi bi-house-fill"></i>
                                 <span>Inicio</span>
                             </a>
                         </li>
 
+                         <li class="sidebar-item {{ Route::is('admin.roles*') ? 'active' : '' }} ">
+                            <a href="{{ route('admin.roles.index') }}" class='sidebar-link'>
+                                <i class="bi bi-shield-check"></i>
+                                <span>Roles</span>
+                            </a>
+                        </li>
+
 
                         <li class="sidebar-title"><i class="bi bi-gear-fill"></i> Ajustes</li>
                         {{-- usuarios --}}
-                        <li class="sidebar-item">
+                        <li class="sidebar-item {{ Route::is('admin.ajustes*') ? 'active' : '' }}">
                             <a href="{{ route('admin.ajustes.index') }}" class='sidebar-link'>
                                 <i class="bi bi-tools"></i>
                                 <span>Configuración</span>
