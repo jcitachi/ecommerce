@@ -11,7 +11,8 @@ class RoleController extends Controller
     public function index()
     {
         //
-        $roles = Role::all();
+        //$roles = Role::all(); // traer todo
+        $roles = Role::paginate(5); //paginar
         return view('admin.roles.index', compact('roles'));
     }
 
@@ -31,7 +32,7 @@ class RoleController extends Controller
         ]);
 
         $rol = new Role();
-        $rol->name = $request->name;
+        $rol->name = strtoupper($request->name);
         $rol->save();
 
         return redirect()->route('admin.roles.index')

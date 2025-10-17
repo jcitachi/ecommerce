@@ -35,24 +35,35 @@
                                 <table class="table table-striped table-hover align-middle">
                                     <thead class="bg-light">
                                         <tr>
+                                            <th class="text-center">Nro</th>
                                             <th scope="col" class="text-start">Rol</th>
                                             <th scope="col" class="text-center" style="width: 150px;">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @php
+                                            $nro = ($roles->currentPage() - 1) * $roles->perPage() + 1;
+                                        @endphp
                                         {{-- Bucle para iterar sobre los roles. Asume que la variable es $roles --}}
                                         @foreach ( $roles as $rol )
                                             <tr>
+                                                <td class="text-center"><b>{{ $nro++ }}</b></td>
                                                 {{-- Campo del Rol --}}
                                                 <td class="text-start">{{ $rol->name }}</td>
 
                                                 {{-- Botones de Acciones --}}
                                                 <td class="text-center">
+                                                    {{-- Botón ber --}}
+                                                    <a href="{{-- route('admin.roles.edit', $rol) --}}"
+                                                        class="btn btn-sm btn-info text-white me-2" title="Ver Rol">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
                                                     {{-- Botón Editar --}}
                                                     <a href="{{-- route('admin.roles.edit', $rol) --}}"
-                                                        class="btn btn-sm btn-info text-white me-2" title="Editar Rol">
+                                                        class="btn btn-sm btn-warning text-white me-2" title="Editar Rol">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </a>
+
 
                                                     {{-- Botón Borrar (Formulario para el método DELETE) --}}
                                                     <form action="{{-- route('admin.roles.destroy', $rol) --}}" method="POST"
@@ -72,6 +83,14 @@
 
                                     </tbody>
                                 </table>
+                                @if ($roles->hasPages())
+                                    <div class="d-flex justify-content-between align-items-center mt4 px-3">
+                                        <div class="text-muted">
+                                            Mostrando {{ $roles->firstItem() }} a {{ $roles->lastItem() }} de {{ $roles->total() }} registros
+                                        </div>
+                                        {{ $roles->links('pagination::bootstrap-4') }}
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
