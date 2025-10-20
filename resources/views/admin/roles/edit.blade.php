@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
 @section('page-header')
-    <h1>Panel para Registrar Roles</h1>
-    <p> Bienvenido <b>{{ Auth::user()->name }}</b>, aca podras registrar los roles</p>
+    <h1>Modificar rol: {{ $rol->name }}</h1>
+    <p> Bienvenido <b>{{ Auth::user()->name }}</b>, aca podras actualizar un rol</p>
     <hr class="text-primary w-60 my-4" style="height: 10px; opacity: 1;">
 @stop
 
@@ -19,9 +19,9 @@
                 </div>
 
                 <div class="card-body p-4">
-                    <form action="{{ route('admin.roles.store') }}" method="post">
+                    <form action="{{ route('admin.roles.update', $rol->id ?? '') }}" method="post">
                         @csrf
-                        @method('POST')
+                        @method('PUT')
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -35,7 +35,7 @@
                                         <i class="bi bi-shield-lock"></i>
                                     </span>
                                     <input type="text" name="name" id="name" class="form-control rounded-pill"
-                                        value="{{ old('name') }}" placeholder="ingresa el rol" required>
+                                        value="{{ old('name', $rol->name ?? '') }}" placeholder="ingresa el rol" required>
                                 </div>
                                 @error('name')
                                         <div>
@@ -52,8 +52,8 @@
                                 <a href="{{ route('admin.roles.index') }}"
                                     class="btn btn-secondary btn-sm rounded-pill shadow-sm"><i class="bi bi-x-circle"></i>
                                     Cancelar</a>
-                                <button type="submit" class="btn btn-primary btn-sm rounded-pill shadow-sm">
-                                    <i class="bi bi-save"></i> Guardar
+                                <button type="submit" class="btn btn-success btn-sm rounded-pill shadow-sm">
+                                    <i class="bi bi-save"></i> Actualizar
                                 </button>
                             </div>
                         </div>

@@ -54,19 +54,19 @@
                                                 {{-- Botones de Acciones --}}
                                                 <td class="text-center">
                                                     {{-- Botón ber --}}
-                                                    <a href="{{-- route('admin.roles.edit', $rol) --}}"
+                                                    <a href="{{ route('admin.roles.show', $rol) }}"
                                                         class="btn btn-sm btn-info text-white me-2" title="Ver Rol">
                                                         <i class="bi bi-eye"></i>
                                                     </a>
                                                     {{-- Botón Editar --}}
-                                                    <a href="{{-- route('admin.roles.edit', $rol) --}}"
+                                                    <a href="{{ route('admin.roles.edit', $rol) }}"
                                                         class="btn btn-sm btn-warning text-white me-2" title="Editar Rol">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </a>
 
 
                                                     {{-- Botón Borrar (Formulario para el método DELETE) --}}
-                                                    <form action="{{-- route('admin.roles.destroy', $rol) --}}" method="POST"
+                                                    <form action="{{ route('admin.roles.destroy', $rol) }}" method="POST"
                                                         class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
