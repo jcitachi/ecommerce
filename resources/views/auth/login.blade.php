@@ -1,10 +1,17 @@
+@php
+    $ajuste = \App\Models\Ajuste::first();
+    $imagen_login = (isset($ajuste) && $ajuste->imagen_login)
+        ? 'storage/' . $ajuste->imagen_login
+        : null;
+@endphp
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Mazer Admin Dashboard</title>
+    <title>login - {{ $ajuste->nombre ?? env('APP_NAME') }}</title>
 
 
 
@@ -24,11 +31,18 @@
         <div class="row h-100">
             <div class="col-lg-5 col-12">
                 <div id="auth-left">
-                    <div class="auth-logo">
-                        <a href="#"><img src="{{ asset('/assets/compiled/svg/logo.svg') }}" alt="Logo"></a>
+                    <div>
+                        <a href="#">
+                            @if ($ajuste)
+                                <img src="{{asset('storage/'.$ajuste->logo)}}" alt="Logo" width="100">
+                            @else
+                                <img src="./assets/compiled/svg/logo.svg" style="width: 150px" alt="Logo">
+                            @endif
+
+                        </a>
                     </div>
-                    <h1 class="auth-title">Log in.</h1>
-                    <p class="auth-subtitle mb-5">Log in with your data that you entered during registration.</p>
+                    <h1 class="auth-title">{{ $ajuste->nombre ?? env('APP_NAME') }}</h1>
+                    <p class="auth-subtitle mb-5">ingresar al sistema</p>
 
                     <form action="{{ route('login') }}" method="POST">
                         @csrf
@@ -63,24 +77,31 @@
                         <div class="form-check form-check-lg d-flex align-items-end">
                             <input class="form-check-input me-2" type="checkbox" value="" id="flexCheckDefault">
                             <label class="form-check-label text-gray-600" for="flexCheckDefault">
-                                Keep me logged in
+                                permanecer conectado
                             </label>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Log in
+                        <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Ingresar
                             {{-- __('Login') --}}
                         </button>
                     </form>
-                    <div class="text-center mt-5 text-lg fs-4">
-                        <p class="text-gray-600">Don't have an account? <a href="auth-register.html"
-                                class="font-bold">Sign
-                                up</a>.</p>
-                        <p><a class="font-bold" href="auth-forgot-password.html">Forgot password?</a>.</p>
+                    <div class="text-center mt-5 text-lg fs-6">
+                        <p class="text-gray-600"> ¿No tienes una cuenta? <a href="{{ route('register') }}"
+                                class="font-bold">Regístrate</a></p>
+                        <p><a class="font-bold" href="auth-forgot-password.html">¿Olvidaste tu contraseña?</a></p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-7 d-none d-lg-block">
                 <div id="auth-right">
+                    <div style="
+                                background-image: url('{{ asset($imagen_login) }}');
+                                background-size: cover;
+                                backgroud-position: center;
+                                background-repeat: no-repeat;
+                                height: 100%;
+                                width: 100%;">
 
+                    </div>
                 </div>
             </div>
         </div>
