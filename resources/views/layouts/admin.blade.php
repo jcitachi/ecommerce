@@ -86,6 +86,13 @@
                             </a>
                         </li>
 
+                        <li class="sidebar-item {{ Route::is('admin.usuario*') ? 'active' : '' }} ">
+                            <a href="{{ route('admin.usuarios.index') }}" class='sidebar-link'>
+                                <i class="bi bi-person-add"></i>
+                                <span>Usuarios</span>
+                            </a>
+                        </li>
+
 
                         <li class="sidebar-title"><i class="bi bi-gear-fill"></i> Ajustes</li>
                         {{-- usuarios --}}
