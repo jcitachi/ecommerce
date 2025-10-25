@@ -1,8 +1,6 @@
 @php
     $ajuste = \App\Models\Ajuste::first();
-    $imagen_login = (isset($ajuste) && $ajuste->imagen_login)
-        ? 'storage/' . $ajuste->imagen_login
-        : null;
+    $imagen_login = isset($ajuste) && $ajuste->imagen_login ? 'storage/' . $ajuste->imagen_login : null;
 @endphp
 
 <!DOCTYPE html>
@@ -32,16 +30,13 @@
             <div class="col-lg-5 col-12">
                 <div id="auth-left">
                     <div>
-                        <a href="#">
-                            @if ($ajuste)
-                                <img src="{{asset('storage/'.$ajuste->logo)}}" alt="Logo" width="100">
-                            @else
-                                <img src="./assets/compiled/svg/logo.svg" style="width: 150px" alt="Logo">
-                            @endif
-
-                        </a>
+                        @if ($ajuste)
+                            <img src="{{ asset('storage/' . $ajuste->logo) }}" alt="Logo" width="150">
+                        @else
+                            <img src="./assets/compiled/svg/logo.svg" style="width: 150px" alt="Logo">
+                        @endif
                     </div>
-                    <h1 class="auth-title">{{ $ajuste->nombre ?? env('APP_NAME') }}</h1>
+                    <h1 class="auth-title mt-4">{{ $ajuste->nombre ?? env('APP_NAME') }}</h1>
                     <p class="auth-subtitle mb-5">ingresar al sistema</p>
 
                     <form action="{{ route('login') }}" method="POST">
@@ -93,7 +88,8 @@
             </div>
             <div class="col-lg-7 d-none d-lg-block">
                 <div id="auth-right">
-                    <div style="
+                    <div
+                        style="
                                 background-image: url('{{ asset($imagen_login) }}');
                                 background-size: cover;
                                 backgroud-position: center;
@@ -110,4 +106,3 @@
 </body>
 
 </html>
-

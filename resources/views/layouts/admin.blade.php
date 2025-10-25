@@ -107,7 +107,7 @@
                         <li class="sidebar-item has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-person-circle"></i>
-                                <span>{{ Auth::user()->name }}</span>
+                                <span>{{ Auth::user()->name }} - {{ Auth::user()->getRoleNames()->first() }}</span>
                             </a>
                             <ul class="submenu">
                                 <li class="submenu-item">

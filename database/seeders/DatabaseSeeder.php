@@ -15,13 +15,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        Role::create(['name' => 'SUPER ADMIN']);
+        Role::create(['name' => 'ADMINISTRADOR']);
+        Role::create(['name' => 'VENDEDOR']);
+        Role::create(['name' => 'CLIENTE']);
+        Role::create(['name' => 'CONTABILIDAD']);
+        Role::create(['name' => 'OPERADOR']);
 
         User::create([
             'name' => 'Juan Carlos',
             'email' => 'admin@admin.com',
             'password' => bcrypt('12345678'),
-        ]);
+        ])->assignRole('SUPER ADMIN');
 
         Ajuste::create([
             'nombre' => 'MarketVista',
@@ -30,18 +35,13 @@ class DatabaseSeeder extends Seeder
             'direccion' => 'Calle 123',
             'telefono' => '123456789',
             'email' => 'admin@admin.com',
-            'logo' => 'logos/weqcDN2wKSLGAyMVuxdOyrRCFbUtH3QrnnMR6Cff.jpg',
-            'imagen_login' => 'imagenes_login/EzTEYvqq9DhFF1H2WroNS7Wj9VL4w7f60fpBio3Q.jpg',
+            'logo' => 'logos/4mgzd1Qrql1Pws8MGxvLajbtWDIAoc4xZg9QmEEC.png',
+            'imagen_login' => 'imagenes_login/G9tqWXNQSBewHmohDGU6DpdQTeL1Tn0AV1CdoaTW.webp',
             'divisa' => 'S/.',
             'pagina_web' => 'https://marketvista.com',
         ]);
 
-        Role::create(['name' => 'SUPER ADMIN']);
-        Role::create(['name' => 'ADMINISTRADOR']);
-        Role::create(['name' => 'VENDEDOR']);
-        Role::create(['name' => 'CLIENTE']);
-        Role::create(['name' => 'CONTABILIDAD']);
-        Role::create(['name' => 'OPERADOR']);
+
 
     }
 }

@@ -23,10 +23,33 @@
                     @csrf
                     @method('POST')
 
-                    <div class="row g-4">
-
-                        {{-- Nombre --}}
+                    <div class="row">
                         <div class="col-md-6">
+                            <label for="name" class="form-label fw-semibold">
+                                Roles <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-shield-check"></i></span>
+                                <select  name="rol" id="rol" class="form-control rounded-pill" required>
+                                    <option value="">Selecione un rol...</option>
+                                    @foreach ($roles as $rol)
+                                        @if (!($rol->name == 'SUPER ADMIN'))
+                                            <option value="{{ $rol->name }}"
+                                                {{ old('rol') == $rol->name ? 'selected' : '' }}>
+                                                {{ $rol->name }}
+                                            </option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            @error('rol')
+                                <div class="text-danger small mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row">
+                        {{-- Nombre --}}
+                        <div class="col-md-6 mt-2">
                             <label for="name" class="form-label fw-semibold">
                                 Nombre Completo <span class="text-danger">*</span>
                             </label>
@@ -41,7 +64,7 @@
                         </div>
 
                         {{-- Email --}}
-                        <div class="col-md-6">
+                        <div class="col-md-6 mt-2">
                             <label for="email" class="form-label fw-semibold">
                                 Correo Electrónico <span class="text-danger">*</span>
                             </label>
@@ -56,7 +79,7 @@
                         </div>
 
                         {{-- Password --}}
-                        <div class="col-md-6">
+                        <div class="col-md-6 mt-2">
                             <label for="password" class="form-label fw-semibold">
                                 Contraseña <span class="text-danger">*</span>
                             </label>
@@ -71,7 +94,7 @@
                         </div>
 
                         {{-- Confirmar Password --}}
-                        <div class="col-md-6">
+                        <div class="col-md-6 mt-2">
                             <label for="password_confirmation" class="form-label fw-semibold">
                                 Confirmar Contraseña <span class="text-danger">*</span>
                             </label>

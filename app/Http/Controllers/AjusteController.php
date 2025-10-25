@@ -61,12 +61,12 @@ class AjusteController extends Controller
 
         if ($ajuste)
             {
-                $rules['logo']          = 'nullable|image|mimes:jpg,jpeg,png,gif,svg|max:2048';
-                $rules['imagen_login']  = 'nullable|image|mimes:jpg,jpeg,png,gif,svg|max:2048';
+                $rules['logo']          = 'nullable|image|mimes:jpg,jpeg,png,gif,svg,webp|max:2048';
+                $rules['imagen_login']  = 'nullable|image|mimes:jpg,jpeg,png,gif,svg,webp|max:2048';
         }else
             {
-                $rules['logo']          = 'required|image|mimes:jpg,jpeg,png,gif,svg|max:2048';
-                $rules['imagen_login']  = 'required|image|mimes:jpg,jpeg,png,gif,svg|max:2048';
+                $rules['logo']          = 'required|image|mimes:jpg,jpeg,png,gif,svg,webp|max:2048';
+                $rules['imagen_login']  = 'required|image|mimes:jpg,jpeg,png,gif,svg,webp|max:2048';
             }
 
         $request->validate($rules);
