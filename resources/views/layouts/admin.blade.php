@@ -93,6 +93,13 @@
                             </a>
                         </li>
 
+                        <li class="sidebar-item {{ Route::is('admin.categoria*') ? 'active' : '' }} ">
+                            <a href="{{ route('admin.categorias.index') }}" class='sidebar-link'>
+                                <i class="bi bi-tags"></i>
+                                <span>Categorías</span>
+                            </a>
+                        </li>
+
 
                         <li class="sidebar-title"><i class="bi bi-gear-fill"></i> Ajustes</li>
                         {{-- usuarios --}}

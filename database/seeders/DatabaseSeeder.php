@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Ajuste;
+use App\Models\Categoria;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -40,6 +41,8 @@ class DatabaseSeeder extends Seeder
             'divisa' => 'S/.',
             'pagina_web' => 'https://marketvista.com',
         ]);
+
+        Categoria::factory(13)->create();
 
 
 
