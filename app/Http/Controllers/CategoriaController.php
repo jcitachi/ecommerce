@@ -29,7 +29,7 @@ class CategoriaController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.categorias.create');
     }
 
     /**
@@ -37,15 +37,31 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //return response()->json($request->all());
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:categorias,slug',
+            'descripcion' => 'nullable|string|max:255',
+        ]);
+
+        $categoria = new Categoria();
+        $categoria->nombre = $request->nombre;
+        $categoria->slug = $request->slug;
+        $categoria->descripcion = $request->descripcion;
+        $categoria->save();
+
+        return redirect()->route('admin.categorias.index')
+            ->with('mensaje', 'Categoria Registrada Exitosamente')
+            ->with('icono', 'success');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Categoria $categoria)
+    public function show($id)
     {
-        //
+        $categoria = Categoria::findOrFail($id);
+        return view('admin.categorias.show', compact('categoria'));
     }
 
     /**

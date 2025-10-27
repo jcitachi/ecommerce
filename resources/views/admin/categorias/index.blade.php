@@ -16,7 +16,7 @@
                 </h5>
 
                 {{-- Botón a la derecha --}}
-                <a href="{{ route('admin.usuarios.create') }}" class="btn btn-sm btn-primary rounded-pill shadow-sm">
+                <a href="{{ route('admin.categorias.create') }}" class="btn btn-sm btn-primary rounded-pill shadow-sm">
                     <i class="bi bi-plus-circle"></i> Registrar Nueva Categoría
                 </a>
 
