@@ -100,6 +100,13 @@
                             </a>
                         </li>
 
+                        <li class="sidebar-item {{ Route::is('admin.producto*') ? 'active' : '' }} ">
+                            <a href="{{ route('admin.productos.index') }}" class='sidebar-link'>
+                                <i class="bi bi-box-seam"></i>
+                                <span>Productos</span>
+                            </a>
+                        </li>
+
 
                         <li class="sidebar-title"><i class="bi bi-gear-fill"></i> Ajustes</li>
                         {{-- usuarios --}}
