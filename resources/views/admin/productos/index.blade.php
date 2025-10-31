@@ -72,7 +72,7 @@
                                 @foreach ($productos as $producto)
                                     <tr>
                                         <td class="text-center"><b>{{ $nro++ }}</b></td>
-                                        <td>{{ $producto->categoria_id->nombre ?? 'Sin categoría' }}</td> {{-- ->nombre ?? 'Sin categoría' --}}
+                                        <td>{{ $producto->categoria->nombre ?? 'Sin categoría' }}</td> {{-- ->nombre ?? 'Sin categoría' --}}
                                         <td>{{ $producto->nombre }}</td>
                                         <td>{{ $producto->codigo }}</td>
                                         <td>{{ Str::limit($producto->descripcion_corta, 50) }}</td>
@@ -80,7 +80,7 @@
                                         <td>S/ {{ number_format($producto->precio_venta, 2) }}</td>
                                         <td>{{ $producto->stock }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('admin.productos.show', $producto) }}"
+                                            <a href="{{ route('admin.productos.show', $producto->id) }}"
                                                 class="btn btn-sm btn-info text-white me-2">
                                                 <i class="bi bi-eye"></i>
                                             </a>
