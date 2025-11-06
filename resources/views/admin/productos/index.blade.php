@@ -76,18 +76,24 @@
                                         <td>{{ $producto->nombre }}</td>
                                         <td>{{ $producto->codigo }}</td>
                                         <td>{{ Str::limit($producto->descripcion_corta, 50) }}</td>
-                                        <td>S/ {{ number_format($producto->precio_compra, 2) }}</td>
-                                        <td>S/ {{ number_format($producto->precio_venta, 2) }}</td>
+                                        <td>{{ $ajuste->divisa. " ".number_format($producto->precio_compra, 2) }}</td>
+                                        <td>{{ $ajuste->divisa. " ".number_format($producto->precio_venta, 2) }}</td>
                                         <td>{{ $producto->stock }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('admin.productos.show', $producto->id) }}"
-                                                class="btn btn-sm btn-info text-white me-2">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-                                            <a href="{{ route('admin.productos.edit', $producto) }}"
-                                                class="btn btn-sm btn-warning text-white me-2">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </a>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <a href="{{ route('admin.productos.show', $producto->id) }}"
+                                                    class="btn btn-sm btn-info text-white">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                <a href="{{ route('admin.productos.imagenes', $producto->id) }}"
+                                                    class="btn btn-sm btn-warning text-white">
+                                                    <i class="bi bi-card-image"></i>
+                                                </a>
+                                                <a href="{{ route('admin.productos.edit', $producto) }}"
+                                                    class="btn btn-sm btn-success text-white ">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </a>
+                                            </div>
 
                                             <form action="{{ route('admin.productos.destroy', $producto) }}" method="POST"
                                                 class="d-inline" id="form{{ $producto->id }}">

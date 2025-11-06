@@ -109,6 +109,19 @@
                 {{-- Cuerpo --}}
                 <div class="card-body bg-light p-5">
 
+                    <div class="row">
+                        @forelse ($producto->imagenes as $imagen)
+                            <div class="col-md-3" style="margin-bottom: 20px">
+                                <div class="card">
+                                    <img src="{{ asset('storage/' . $imagen->imagen) }}" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                        @empty
+                            <div class="col-md-12">
+                                <p class="text-muted">Sin imagenes</p>
+                            </div>
+                        @endforelse
+                    </div>
 
                 </div>
             </div>
