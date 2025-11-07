@@ -78,34 +78,45 @@
                         <!-- Account -->
                         <div class="dropdown account-dropdown">
                             <button class="header-action-btn" data-bs-toggle="dropdown">
-                                <i class="bi bi-person"></i>
+                                <i class="bi bi-person"></i> {{ Auth::user()->name ?? '' }}
                             </button>
                             <div class="dropdown-menu">
                                 <div class="dropdown-header">
-                                    <h6>Welcome to <span class="sitename">FashionStore</span></h6>
-                                    <p class="mb-0">Access account &amp; manage orders</p>
+                                    <h6>Bienvenido a <span
+                                            class="sitename">{{ $ajuste->nombre ?? env('APP_NAME') }}</span></h6>
                                 </div>
                                 <div class="dropdown-body">
                                     <a class="dropdown-item d-flex align-items-center" href="account.html">
                                         <i class="bi bi-person-circle me-2"></i>
-                                        <span>My Profile</span>
+                                        <span>Mi perfil</span>
                                     </a>
                                     <a class="dropdown-item d-flex align-items-center" href="account.html">
                                         <i class="bi bi-bag-check me-2"></i>
-                                        <span>My Orders</span>
+                                        <span>Mis pedidos</span>
                                     </a>
                                     <a class="dropdown-item d-flex align-items-center" href="account.html">
                                         <i class="bi bi-heart me-2"></i>
-                                        <span>My Wishlist</span>
+                                        <span>Lista de deseos</span>
                                     </a>
                                     <a class="dropdown-item d-flex align-items-center" href="account.html">
                                         <i class="bi bi-gear me-2"></i>
-                                        <span>Settings</span>
+                                        <span>Ajustes</span>
                                     </a>
                                 </div>
                                 <div class="dropdown-footer">
-                                    <a href="register.html" class="btn btn-primary w-100 mb-2">Sign In</a>
-                                    <a href="login.html" class="btn btn-outline-primary w-100">Register</a>
+                                    @if (Auth::check())
+                                        <form action="{{ route('logout') }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="d-flex align-items-center btn btn-outline-danger">
+                                                <i class="bi bi-box-arrow-right me-2"></i>
+                                                <span>Cerrar Sesión</span>
+                                            </button>
+                                        </form>
+                                    @else
+                                        <a href="{{ route('web.login') }}" class="btn btn-primary w-100 mb-2">Iniciar Sesión</a>
+                                        <a href="{{ route('web.registro') }}" class="btn btn-outline-primary w-100">Registrar</a>
+                                    @endif
+
                                 </div>
                             </div>
                         </div>
@@ -942,16 +953,16 @@
     <div id="preloader"></div>
 
     <!-- Vendor JS Files -->
-    <script src="{{ asset('/assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{ asset('/assets/vendor/php-email-form/validate.js')}}"></script>
-    <script src="{{ asset('/assets/vendor/swiper/swiper-bundle.min.js')}}"></script>
-    <script src="{{ asset('/assets/vendor/aos/aos.js')}}"></script>
-    <script src="{{ asset('/assets/vendor/glightbox/js/glightbox.min.js')}}"></script>
-    <script src="{{ asset('/assets/vendor/drift-zoom/Drift.min.js')}}"></script>
-    <script src="{{ asset('/assets/vendor/purecounter/purecounter_vanilla.js')}}"></script>
+    <script src="{{ asset('/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('/assets/vendor/php-email-form/validate.js') }}"></script>
+    <script src="{{ asset('/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+    <script src="{{ asset('/assets/vendor/aos/aos.js') }}"></script>
+    <script src="{{ asset('/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+    <script src="{{ asset('/assets/vendor/drift-zoom/Drift.min.js') }}"></script>
+    <script src="{{ asset('/assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
 
     <!-- Main JS File -->
-    <script src="{{ asset('/assets/js/main.js')}}"></script>
+    <script src="{{ asset('/assets/js/main.js') }}"></script>
 
 </body>
 
